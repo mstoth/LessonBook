@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A4751C5D21F7D50200C842E7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4751C5C21F7D50200C842E7 /* CloudKit.framework */; };
 		A4E7D00221F6978100E615B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7D00121F6978100E615B9 /* AppDelegate.swift */; };
 		A4E7D00521F6978100E615B9 /* LessonBook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A4E7D00321F6978100E615B9 /* LessonBook.xcdatamodeld */; };
 		A4E7D00721F6978100E615B9 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7D00621F6978100E615B9 /* MasterViewController.swift */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A4751C5A21F7D50000C842E7 /* LessonBook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LessonBook.entitlements; sourceTree = "<group>"; };
+		A4751C5C21F7D50200C842E7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A4E7CFFE21F6978100E615B9 /* LessonBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LessonBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4E7D00121F6978100E615B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A4E7D00421F6978100E615B9 /* LessonBook.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LessonBook.xcdatamodel; sourceTree = "<group>"; };
@@ -58,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4751C5D21F7D50200C842E7 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A4751C5B21F7D50200C842E7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A4751C5C21F7D50200C842E7 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A4E7CFF521F6978100E615B9 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +97,7 @@
 				A4E7D01A21F6978200E615B9 /* LessonBookTests */,
 				A4E7D02521F6978200E615B9 /* LessonBookUITests */,
 				A4E7CFFF21F6978100E615B9 /* Products */,
+				A4751C5B21F7D50200C842E7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +114,7 @@
 		A4E7D00021F6978100E615B9 /* LessonBook */ = {
 			isa = PBXGroup;
 			children = (
+				A4751C5A21F7D50000C842E7 /* LessonBook.entitlements */,
 				A4E7D00121F6978100E615B9 /* AppDelegate.swift */,
 				A4E7D00621F6978100E615B9 /* MasterViewController.swift */,
 				A4E7D00821F6978100E615B9 /* DetailViewController.swift */,
@@ -199,6 +213,14 @@
 				TargetAttributes = {
 					A4E7CFFD21F6978100E615B9 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					A4E7D01621F6978200E615B9 = {
 						CreatedOnToolsVersion = 10.1;
@@ -440,6 +462,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LessonBook/LessonBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9E7Y9QZC52;
 				INFOPLIST_FILE = LessonBook/Info.plist;
@@ -458,6 +481,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LessonBook/LessonBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9E7Y9QZC52;
 				INFOPLIST_FILE = LessonBook/Info.plist;
