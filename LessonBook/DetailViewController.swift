@@ -17,7 +17,12 @@ class DetailViewController: UIViewController {
         // Update the user interface for the detail item.
         if let detail = detailItem {
             if let label = detailDescriptionLabel {
-                label.text = detail.firstName! + " " + detail.lastName!
+                let fullName = detail.firstName! + " " + detail.lastName!
+                if fullName == "New Student" {
+                    label.text = NSLocalizedString("new-student", comment: "Comment")
+                } else {
+                    label.text = fullName
+                }
             }
         }
     }

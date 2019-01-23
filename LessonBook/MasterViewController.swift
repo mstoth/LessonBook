@@ -109,7 +109,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     func configureCell(_ cell: UITableViewCell, withStudent student: Student) {
-        cell.textLabel!.text = student.firstName! + " " + student.lastName!
+        let fullName = student.firstName! + " " + student.lastName!
+        if (fullName == "New Student" ) {
+            cell.textLabel!.text = NSLocalizedString("new-student", comment: "New Student")
+        } else {
+            cell.textLabel!.text = student.firstName! + " " + student.lastName!
+        }
     }
 
     // MARK: - Fetched results controller

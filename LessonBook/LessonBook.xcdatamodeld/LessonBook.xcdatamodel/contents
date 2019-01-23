@@ -26,6 +26,7 @@
         <relationship name="lesson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Lesson" inverseName="pieces" inverseEntity="Lesson" syncable="YES"/>
     </entity>
     <entity name="Student" representedClassName="Student" syncable="YES" codeGenerationType="class">
+        <attribute name="balance" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="cell" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -35,13 +36,14 @@
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="street1" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="street2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uniqueIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="zip" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="student" inverseEntity="Event" syncable="YES"/>
         <relationship name="lessons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Lesson" inverseName="student" inverseEntity="Lesson" syncable="YES"/>
     </entity>
     <elements>
         <element name="Event" positionX="180.28515625" positionY="91.8828125" width="128" height="133"/>
-        <element name="Student" positionX="546.421875" positionY="-195.7265625" width="128" height="223"/>
+        <element name="Student" positionX="546.421875" positionY="-195.7265625" width="128" height="253"/>
         <element name="Lesson" positionX="283.35546875" positionY="-64.97265625" width="128" height="118"/>
         <element name="Piece" positionX="478.75" positionY="89.21875" width="128" height="118"/>
     </elements>
