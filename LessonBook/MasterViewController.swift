@@ -19,9 +19,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let container = CKContainer.default()
-        let privateDB = container.privateCloudDatabase
-        let sharedDB = container.sharedCloudDatabase
         
         navigationItem.leftBarButtonItem = editButtonItem
 
