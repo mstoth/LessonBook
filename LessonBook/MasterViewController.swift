@@ -19,6 +19,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let container = CKContainer.default()
+        let privateDB = container.privateCloudDatabase
+        let sharedDB = container.sharedCloudDatabase
+        
         navigationItem.leftBarButtonItem = editButtonItem
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
@@ -39,9 +43,34 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let context = self.fetchedResultsController.managedObjectContext
         //let newEvent = Event(context: context)
         let newStudent = Student(context: context)
+        
+        // CloudKit
+        let uuid = NSUUID().uuidString
+        let studentRecordID = CKRecord.ID(recordName:uuid)
+        let studentRecord = CKRecord(recordType: "Student", recordID: studentRecordID)
+        studentRecord["firstName"] = "New"
+        studentRecord["lastName"] = "Student"
+        studentRecord["uniqueIdentifier"] = uuid
+        
         // If appropriate, configure the new managed object.
         newStudent.firstName = "New"
         newStudent.lastName = "Student"
+
+        // Save to iCloud
+        let myContainer = CKContainer.default()
+        let privateDatabase = myContainer.privateCloudDatabase
+        privateDatabase.save(studentRecord) {
+            (record, error) in
+            if let error = error {
+                // Insert error handling
+                let alertController: UIAlertController = UIAlertController(title: "Error Saving Student to iCloud", message: error.localizedDescription, preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(action)
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            // Insert successfully saved record code
+        }
 
         // Save the context.
         do {
