@@ -14,7 +14,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     var detailViewController: DetailViewController? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
-
+    var studentArray:[CKRecord] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +28,25 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
+        let myContainer = CKContainer.default()
+        let privateDatabase = myContainer.privateCloudDatabase
+        let predicate:NSPredicate = NSPredicate.init(value: true)
+        let query = CKQuery.init(recordType: "Student", predicate: predicate)
+        privateDatabase.perform(query, inZoneWith: nil, completionHandler: ({results,error in
+            if (error != nil) {
+                let queue = DispatchQueue(label: "ErrorQueue")
+                queue.async {
+                    print("Query Error")
+                }
+            } else {
+                self.studentArray = results!
+                DispatchQueue.main.async {
+                // DispatchQueue(label: "UpdateQueue").async {
+                    self.tableView.reloadData()
+                }
+            }
+        }))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -60,10 +79,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             (record, error) in
             if let error = error {
                 // Insert error handling
-                let alertController: UIAlertController = UIAlertController(title: "Error Saving Student to iCloud", message: error.localizedDescription, preferredStyle: .alert)
-                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alertController.addAction(action)
-                self.present(alertController, animated: true, completion: nil)
+                let queue = DispatchQueue(label: "ErrorQueue")
+                queue.async {
+                    let alertController: UIAlertController = UIAlertController(title: "Error Saving Student to iCloud", message: error.localizedDescription, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertController.addAction(action)
+                    self.present(alertController, animated: true, completion: nil)
+                }
                 return
             }
             // Insert successfully saved record code
@@ -97,19 +119,23 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 0
+        //return fetchedResultsController.sections?.count ?? 0
+        return self.studentArray.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = fetchedResultsController.sections![section]
-        return sectionInfo.numberOfObjects
+        // let sectionInfo = fetchedResultsController.sections![section]
+        // return sectionInfo.numberOfObjects
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         //let event = fetchedResultsController.object(at: indexPath)
-        let student = fetchedResultsController.object(at: indexPath)
-        configureCell(cell, withStudent: student)
+        // let student = fetchedResultsController.object(at: indexPath)
+        let student = self.studentArray[indexPath[0]]
+        // configureCell(cell, withStudent: student)
+        configureCell(cell, withStudent:student)
         return cell
     }
 
@@ -134,12 +160,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
     }
 
-    func configureCell(_ cell: UITableViewCell, withStudent student: Student) {
-        let fullName = student.firstName! + " " + student.lastName!
+    func configureCell(_ cell: UITableViewCell, withStudent student: CKRecord) {
+        let fullName = student["firstName"]! + " " + student["lastName"]!
         if (fullName == "New Student" ) {
             cell.textLabel!.text = NSLocalizedString("new-student", comment: "New Student")
         } else {
-            cell.textLabel!.text = student.firstName! + " " + student.lastName!
+            cell.textLabel!.text = fullName
         }
     }
 
@@ -201,9 +227,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             case .delete:
                 tableView.deleteRows(at: [indexPath!], with: .fade)
             case .update:
-                configureCell(tableView.cellForRow(at: indexPath!)!, withStudent: anObject as! Student)
+                configureCell(tableView.cellForRow(at: indexPath!)!, withStudent: anObject as! CKRecord)
+                // configureCell(tableView.cellForRow(at: indexPath!)!, withStudent: anObject as! Student)
             case .move:
-                configureCell(tableView.cellForRow(at: indexPath!)!, withStudent: anObject as! Student)
+                // configureCell(tableView.cellForRow(at: indexPath!)!, withStudent: anObject as! Student)
+                configureCell(tableView.cellForRow(at: indexPath!)!, withStudent: anObject as! CKRecord)
                 tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }
